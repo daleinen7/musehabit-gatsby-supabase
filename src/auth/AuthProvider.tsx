@@ -6,11 +6,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { supabase } from '../lib/supabase';
-
-interface User {
-  id: string;
-  email: string | undefined;
-}
+import { User } from '../lib/types';
 
 interface AuthContextProps {
   user: User | null;
@@ -82,17 +78,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const signup = async (email: string, password: string) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) throw error;
+      const { data: userData, error: signupError } = await supabase.auth.signUp(
+        {
+          email,
+          password,
+        },
+      );
+      if (signupError) throw signupError;
 
-      if (data?.user) {
-        const { id, email } = data.user;
+      if (userData?.user) {
+        const { id, email } = userData.user;
         if (typeof email !== 'string') throw new Error('No email');
+
+        const { data: profile, error: profileError } = await supabase
+          .from('Profile')
+          .insert([{ user_id: id, user_name: email, shame: '', zipcode: null }])
+          .select();
+
+        if (profileError) throw profileError;
         setUser({ id, email });
-        console.log('User signed up successfully', user);
       }
     } catch (error) {
       console.error('Error signing up:', error);

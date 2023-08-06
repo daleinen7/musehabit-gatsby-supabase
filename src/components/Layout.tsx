@@ -13,8 +13,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const user = authContext?.user ?? null;
   const logout = authContext?.logout ?? (() => {});
 
-  console.log(user);
-
   return (
     <>
       <header>
