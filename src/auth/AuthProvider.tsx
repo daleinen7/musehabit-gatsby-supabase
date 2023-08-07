@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const { id, email } = data.user;
         if (typeof email !== 'string') throw new Error('No email');
         setUser({ id, email });
-        console.log('User logged in successfully', user);
+        console.log('User logged in successfully', data);
       }
     } catch (error) {
       console.error('Error logging in:', error);
@@ -88,14 +88,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (userData?.user) {
         const { id, email } = userData.user;
+
         if (typeof email !== 'string') throw new Error('No email');
 
-        const { data: profile, error: profileError } = await supabase
-          .from('Profile')
-          .insert([{ user_id: id, user_name: email, shame: '', zipcode: null }])
-          .select();
-
-        if (profileError) throw profileError;
         setUser({ id, email });
       }
     } catch (error) {
