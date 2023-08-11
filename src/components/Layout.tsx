@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const user = authContext?.user ?? null;
   const logout = authContext?.logout ?? (() => {});
 
-  console.log(user);
+  console.log('USER: ', user);
 
   return (
     <>
@@ -21,7 +21,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {user ? (
           <>
             <h1>Musehabit</h1>
-            <p>Logged in</p>
+            <ul>
+              <li>
+                <button onClick={logout}>Logout</button>
+              </li>
+            </ul>
           </>
         ) : (
           <>

@@ -14,8 +14,6 @@ declare global {
 const supabaseUrl = process.env.GATSBY_SUPABASE_URL;
 const supabaseKey = process.env.GATSBY_SUPABASE_PUBLIC_KEY;
 
-console.log('KEY: ', supabaseKey);
-
 // Ensure the environment variables are provided
 if (!supabaseUrl || !supabaseKey) {
   throw new Error('Supabase URL and key are missing in environment variables.');
